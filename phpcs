@@ -1,0 +1,7 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types = 1);
+
+// Require is enough to execute the phar stub that will run the tool,
+// see https://www.php.net/phar.createdefaultstub for more info
+require_once __DIR__ . '/phpcs.phar';

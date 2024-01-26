@@ -1,0 +1,45 @@
+name: Create a phar release
+
+on:
+  push:
+  schedule:
+    - cron: "16 */2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  create:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: "Fetch latest phar"
+      uses: dsaltares/fetch-gh-release-asset@master
+      id: fetch_phar
+      with:
+        repo: PHPCSStandards/PHP_CodeSniffer
+        regex: true
+        file: "phpcs\\.phar(\\.asc)?"
+        target: "./"
+        token: ${{ secrets.GITHUB_TOKEN }}
+    - name: "Fetch phpcs.xsd"
+      run: wget https://github.com/PHPCSStandards/PHP_CodeSniffer/raw/${{ steps.fetch_phar.outputs.version }}/phpcs.xsd
+    - name: "Update replaced versions in composer.json"
+      run: jq --tab '.replace[] |= "${{ steps.fetch_phar.outputs.version }}"' composer.json > composer.json.new && mv composer.json.new composer.json
+    - name: "Commit and push any modified files"
+      id: commit_push
+      run: |-
+        git config user.name "Automated release"
+        git config user.email "actions@users.noreply.github.com"
+        git add -A
+        git commit -m "Release ${{ steps.fetch_phar.outputs.version }}" || exit 0
+        git push
+        echo "release=true" >> $GITHUB_OUTPUT
+    - name: "Create release ${{ steps.fetch_phar.outputs.version }}"
+      if: success() && steps.commit_push.outputs.release
+      uses: ncipollo/release-action@v1
+      with:
+        name: ${{ steps.fetch_phar.outputs.name }}
+        body: "Find the [release notes](https://github.com/PHPCSStandards/PHP_CodeSniffer/releases/tag/${{ steps.fetch_phar.outputs.version }}) for version ${{ steps.fetch_phar.outputs.version }} [here](https://github.com/PHPCSStandards/PHP_CodeSniffer/releases/tag/${{ steps.fetch_phar.outputs.version }})."
+        tag: ${{ steps.fetch_phar.outputs.version }}
