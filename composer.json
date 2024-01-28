@@ -13,6 +13,7 @@
 		"dev"
 	],
 	"replace": {
+		"dealerdirect/phpcodesniffer-composer-installer": "*",
 		"phpcsstandards/php_codesniffer": "*",
 		"squizlabs/php_codesniffer": "*"
 	},

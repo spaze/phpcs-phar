@@ -21,6 +21,7 @@ composer require --dev spaze/phpcs-phar
 
 ## Installing coding standards
 The phar releases in this repository do not work with the PHP_CodeSniffer Standards Composer Installer Plugin (the [`dealerdirect/phpcodesniffer-composer-installer`](https://packagist.org/packages/dealerdirect/phpcodesniffer-composer-installer) package).
+Be warned that this package even replaces the installer plugin in its `composer.json`.
 
 There are several reasons for that:
 1. The installer plugin [looks](https://github.com/PHPCSStandards/composer-installer/blob/290bcb677628f4d829f64a4337bf0b9237238f0b/src/Plugin.php#L47) for a different installed package, `squizlabs/php_codesniffer` to add more standards to

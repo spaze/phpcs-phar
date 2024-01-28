@@ -26,7 +26,7 @@ jobs:
     - name: "Fetch phpcs.xsd"
       run: wget --timestamping https://github.com/PHPCSStandards/PHP_CodeSniffer/raw/${{ steps.fetch_phar.outputs.version }}/phpcs.xsd
     - name: "Update replaced versions in composer.json"
-      run: jq --tab '.replace[] |= "${{ steps.fetch_phar.outputs.version }}"' composer.json > composer.json.new && mv composer.json.new composer.json
+      run: jq --tab '.replace["phpcsstandards/php_codesniffer","squizlabs/php_codesniffer"] |= "${{ steps.fetch_phar.outputs.version }}"' composer.json > composer.json.new && mv composer.json.new composer.json
     - name: "Commit and push any modified files"
       id: commit_push
       run: |-
