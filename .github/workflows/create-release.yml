@@ -36,6 +36,11 @@ jobs:
         git commit -m "Release ${{ steps.fetch_phar.outputs.version }}" || exit 0
         git push
         echo "release=true" >> $GITHUB_OUTPUT
+    - name: "Smoke test"
+      if: success() && steps.commit_push.outputs.release
+      run: |-
+        ./phpcs --version
+        ./phpcbf --version
     - name: "Create release ${{ steps.fetch_phar.outputs.version }}"
       if: success() && steps.commit_push.outputs.release
       uses: ncipollo/release-action@v1
