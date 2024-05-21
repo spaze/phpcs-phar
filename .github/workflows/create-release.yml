@@ -23,6 +23,10 @@ jobs:
         file: "phpcs\\.phar(\\.asc)?"
         target: "./"
         token: ${{ secrets.GITHUB_TOKEN }}
+    - name: "Verify GPG signature"
+      run: |-
+        gpg --no-default-keyring --keyring trustedkeys.kbx --receive-keys 95DE904AB800754A11D80B605E6DDE998AB73B8E
+        gpgv phpcs.phar.asc phpcs.phar
     - name: "Fetch phpcs.xsd"
       run: wget --timestamping https://github.com/PHPCSStandards/PHP_CodeSniffer/raw/${{ steps.fetch_phar.outputs.version }}/phpcs.xsd
     - name: "Update replaced versions in composer.json"
@@ -41,11 +45,6 @@ jobs:
       run: |-
         ./phpcs --version
         ./phpcbf --version
-    - name: "Verify GPG signature"
-      if: success() && steps.commit_push.outputs.release
-      run: |-
-        gpg --no-default-keyring --keyring trustedkeys.kbx --receive-keys 95DE904AB800754A11D80B605E6DDE998AB73B8E
-        gpgv phpcs.phar.asc phpcs.phar
     - name: "Create release ${{ steps.fetch_phar.outputs.version }}"
       if: success() && steps.commit_push.outputs.release
       uses: ncipollo/release-action@v1
