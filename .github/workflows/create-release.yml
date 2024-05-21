@@ -25,7 +25,7 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: "Verify GPG signature"
       run: |-
-        gpg --no-default-keyring --keyring trustedkeys.kbx --receive-keys 95DE904AB800754A11D80B605E6DDE998AB73B8E
+        gpg --no-default-keyring --keyring trustedkeys.kbx --receive-keys 689DAD778FF08760E046228BA978220305CD5C32
         gpgv phpcs.phar.asc phpcs.phar
     - name: "Fetch phpcs.xsd"
       run: wget --timestamping https://github.com/PHPCSStandards/PHP_CodeSniffer/raw/${{ steps.fetch_phar.outputs.version }}/phpcs.xsd
