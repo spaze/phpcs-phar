@@ -1,7 +1,6 @@
 name: Create a phar release
 
 on:
-  push:
   schedule:
     - cron: "16 */2 * * *"
   workflow_dispatch:
