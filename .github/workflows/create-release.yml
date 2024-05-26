@@ -42,6 +42,7 @@ jobs:
     - name: "Smoke test"
       if: success() && steps.commit_push.outputs.release
       run: |-
+        composer update
         ./phpcs --version
         ./phpcbf --version
     - name: "Create release ${{ steps.fetch_phar.outputs.version }}"
