@@ -1,6 +1,7 @@
 # PHP_CodeSniffer phar releases
 
 [![Create a phar release](https://github.com/spaze/phpcs-phar/actions/workflows/create-release.yml/badge.svg)](https://github.com/spaze/phpcs-phar/actions/workflows/create-release.yml)
+[![PHP Tests](https://github.com/spaze/phpcs-phar/actions/workflows/php.yml/badge.svg)](https://github.com/spaze/phpcs-phar/actions/workflows/php.yml)
 
 This repo contains phar releases of [PHPCSStandards/PHP_CodeSniffer](https://github.com/PHPCSStandards/PHP_CodeSniffer).
 
