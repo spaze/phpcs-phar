@@ -25,7 +25,9 @@
 		"php-parallel-lint/php-console-highlighter": "^1.0"
 	},
 	"autoload": {
-		"psr-4": {"Spaze\\PHPCSPhar\\": "src"}
+		"psr-4": {
+			"Spaze\\PHPCSPhar\\": "src"
+		}
 	},
 	"bin": [
 		"phpcbf",
