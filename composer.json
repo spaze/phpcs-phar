@@ -1,6 +1,6 @@
 {
 	"name": "spaze/phpcs-phar",
-	"description": "PHP_CodeSniffer phar releases",
+	"description": "PHP_CodeSniffer phar releases, automated and always up-to-date",
 	"license": "BSD-3-Clause",
 	"authors": [
 		{
