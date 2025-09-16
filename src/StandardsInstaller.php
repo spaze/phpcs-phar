@@ -19,7 +19,8 @@ class StandardsInstaller
 			foreach ($packages as $package) {
 				$paths[] = InstalledVersions::getInstallPath($package);
 			}
-			Config::setConfigData('installed_paths', implode(',', $paths), true);
+			$config = new Config();
+			$config->setConfigData('installed_paths', implode(',', $paths), true);
 		}
 	}
 
