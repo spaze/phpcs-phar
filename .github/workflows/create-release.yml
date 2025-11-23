@@ -47,8 +47,6 @@ jobs:
         ./phpcbf --version
     - name: "Create release ${{ steps.fetch_phar.outputs.version }}"
       if: success() && steps.commit_push.outputs.release
-      uses: ncipollo/release-action@v1
-      with:
-        name: ${{ steps.fetch_phar.outputs.name }}
-        body: "Find the [release notes](https://github.com/PHPCSStandards/PHP_CodeSniffer/releases/tag/${{ steps.fetch_phar.outputs.version }}) for version ${{ steps.fetch_phar.outputs.version }} [here](https://github.com/PHPCSStandards/PHP_CodeSniffer/releases/tag/${{ steps.fetch_phar.outputs.version }})."
-        tag: ${{ steps.fetch_phar.outputs.version }}
+      run: gh release create ${{ steps.fetch_phar.outputs.version }} --title "${{ steps.fetch_phar.outputs.name }}" --notes "Find the release notes for version ${{ steps.fetch_phar.outputs.version }} [here](https://github.com/PHPCSStandards/PHP_CodeSniffer/releases/tag/${{ steps.fetch_phar.outputs.version }})."
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
