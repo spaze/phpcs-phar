@@ -20,8 +20,15 @@ jobs:
         version=$(echo "$release" | jq -r '.tagName')
         name=$(echo "$release" | jq -r '.name')
         gh release download --repo PHPCSStandards/PHP_CodeSniffer --tag "$version" --pattern "phpcs.phar" --pattern "phpcs.phar.asc" --dir ./ --clobber
-        echo "version=$version" >> $GITHUB_OUTPUT
-        echo "name=$name" >> $GITHUB_OUTPUT
+        delimiter=$(openssl rand -hex 8)
+        {
+          echo "version<<${delimiter}"
+          echo "${version}"
+          echo "${delimiter}"
+          echo "name<<${delimiter}"
+          echo "${name}"
+          echo "${delimiter}"
+        } >> "$GITHUB_OUTPUT"
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: "Verify GPG signature"
