@@ -14,14 +14,23 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: "Fetch latest phar"
-      uses: dsaltares/fetch-gh-release-asset@master
       id: fetch_phar
-      with:
-        repo: PHPCSStandards/PHP_CodeSniffer
-        regex: true
-        file: "phpcs\\.phar(\\.asc)?"
-        target: "./"
-        token: ${{ secrets.GITHUB_TOKEN }}
+      run: |-
+        release=$(gh release view --repo PHPCSStandards/PHP_CodeSniffer --json tagName,name)
+        version=$(echo "$release" | jq -r '.tagName')
+        name=$(echo "$release" | jq -r '.name')
+        gh release download --repo PHPCSStandards/PHP_CodeSniffer --tag "$version" --pattern "phpcs.phar" --pattern "phpcs.phar.asc" --dir ./ --clobber
+        delimiter=$(openssl rand -hex 8)
+        {
+          echo "version<<${delimiter}"
+          echo "${version}"
+          echo "${delimiter}"
+          echo "name<<${delimiter}"
+          echo "${name}"
+          echo "${delimiter}"
+        } >> "$GITHUB_OUTPUT"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: "Verify GPG signature"
       run: |-
         gpg --no-default-keyring --keyring trustedkeys.kbx --keyserver hkps://keyserver.ubuntu.com --receive-keys 689DAD778FF08760E046228BA978220305CD5C32 D91D86963AF3A29B6520462297B02DD8E5071466
