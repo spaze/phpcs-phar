@@ -19,7 +19,7 @@ jobs:
         release=$(gh release view --repo PHPCSStandards/PHP_CodeSniffer --json tagName,name)
         version=$(echo "$release" | jq -r '.tagName')
         name=$(echo "$release" | jq -r '.name')
-        gh release download --repo PHPCSStandards/PHP_CodeSniffer --pattern "phpcs.phar" --pattern "phpcs.phar.asc" --dir ./ --clobber
+        gh release download --repo PHPCSStandards/PHP_CodeSniffer --tag "$version" --pattern "phpcs.phar" --pattern "phpcs.phar.asc" --dir ./ --clobber
         echo "version=$version" >> $GITHUB_OUTPUT
         echo "name=$name" >> $GITHUB_OUTPUT
       env:
